@@ -7,12 +7,20 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.paddingFrom
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.composearticle.ui.theme.ComposeArticleTheme
 
@@ -23,7 +31,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             ComposeArticleTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) {
-                    ComposeArticleContent("Article", "Second")
+                    ComposeArticle()
                 }
             }
         }
@@ -31,25 +39,52 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun ComposeArticleContent(title: String, paragraph: String, modifier: Modifier = Modifier) {
+fun ComposeArticle() {
+    ComposeArticleCard(
+        title = stringResource(R.string.title_jetpack_compose_tutorial),
+        shortParagraph = stringResource(R.string.compose_short_desc),
+        longParagraph = stringResource(R.string.compose_long_desc),
+        painter = painterResource(R.drawable.bg_compose_background),
+    )
+}
+
+@Composable
+fun ComposeArticleCard(
+    title: String,
+    shortParagraph: String,
+    longParagraph: String,
+    painter: Painter,
+    modifier: Modifier = Modifier
+) {
     ComposeArticleTheme {
-        Column {
-            // Image
+        Column (modifier = modifier) {
             Image(
-                painter = painterResource(R.drawable.bg_compose_background),
+                painter = painter,
                 contentDescription = null
             )
 
-            // Title
             Text(
                 text = title,
-                fontSize = 100.sp
+                fontSize = 25.sp,
+                modifier = Modifier.padding(16.dp),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
 
-            // Paragraph
             Text(
-                text = paragraph,
-                fontSize = 50.sp
+                text = shortParagraph,
+                fontSize = 15.sp,
+                color = Color.Gray,
+                textAlign = TextAlign.Justify,
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp)
+            )
+
+            Text(
+                text = longParagraph,
+                fontSize = 15.sp,
+                color = Color.Gray,
+                textAlign = TextAlign.Justify,
+                modifier = Modifier.padding(16.dp)
             )
         }
     }
@@ -59,6 +94,6 @@ fun ComposeArticleContent(title: String, paragraph: String, modifier: Modifier =
 @Composable
 fun ComposeArticlePreview() {
     ComposeArticleTheme {
-        ComposeArticleContent("Article", "Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah")
+        ComposeArticle()
     }
 }
